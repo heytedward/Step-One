@@ -15,9 +15,14 @@ interface SettingsViewProps {
 export const SettingsView: React.FC<SettingsViewProps> = ({ userState, onReset, openPaywall, openAuth }) => {
   const [activeLegalModal, setActiveLegalModal] = useState<null | 'terms' | 'privacy'>(null);
 
-  const handleItemClick = (label: string) => {
+  const handleRemindersClick = () => {
+    HapticService.success();
+    alert("Daily Reminders: Notifications are enabled for 8:00 AM local time.");
+  };
+
+  const handleFeedbackClick = () => {
     HapticService.light();
-    console.log(`Tapped: ${label}`);
+    window.location.href = "mailto:hello@stepone.app?subject=StepOne%20Feedback";
   };
 
   const handleCommunityClick = (url: string) => {
@@ -79,13 +84,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ userState, onReset, 
       </div>
 
       <div className="space-y-8">
-        {/* Account Section */}
+        {/* Preferences Section */}
         <div>
           <h5 className="text-[9px] font-black uppercase text-gray-300 tracking-[0.2em] px-2 mb-3">Preferences</h5>
           <div className="bg-white rounded-3xl overflow-hidden border border-gray-50">
-            <SettingsItem icon={<Lucide.Bell size={18} />} label="Daily Reminders" onClick={() => handleItemClick('Reminders')} />
-            <SettingsItem icon={<Lucide.ShieldCheck size={18} />} label="Privacy & Security" onClick={() => handleItemClick('Privacy')} />
-            <SettingsItem icon={<Lucide.MessageSquare size={18} />} label="Send Feedback" onClick={() => handleItemClick('Feedback')} />
+            <SettingsItem icon={<Lucide.Bell size={18} />} label="Daily Reminders" onClick={handleRemindersClick} />
+            <SettingsItem icon={<Lucide.ShieldCheck size={18} />} label="Privacy & Security" onClick={() => setActiveLegalModal('privacy')} />
+            <SettingsItem icon={<Lucide.MessageSquare size={18} />} label="Send Feedback" onClick={handleFeedbackClick} />
           </div>
         </div>
 
@@ -99,7 +104,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ userState, onReset, 
           </div>
         </div>
 
-        {/* Legal Section */}
+        {/* Information Section */}
         <div>
           <h5 className="text-[9px] font-black uppercase text-gray-300 tracking-[0.2em] px-2 mb-3">Information</h5>
           <div className="bg-white rounded-3xl overflow-hidden border border-gray-50">
@@ -128,7 +133,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ userState, onReset, 
 const SettingsItem = ({ icon, label, onClick, variant }: { icon: React.ReactNode; label: string; onClick: () => void; variant?: 'danger' }) => (
   <button 
     onClick={onClick}
-    className="w-full flex items-center justify-between p-5 hover:bg-gray-50 active:bg-gray-100 transition-colors text-left"
+    className="w-full flex items-center justify-between p-5 hover:bg-gray-50 active:bg-gray-100 transition-colors text-left border-b border-gray-50 last:border-0"
   >
     <div className="flex items-center space-x-4">
       <div className={`${variant === 'danger' ? 'text-red-300' : 'text-gray-400'}`}>{icon}</div>
